@@ -1302,33 +1302,50 @@
     const musicBtn = document.getElementById('musicToggle');
     let isPlaying = false;
 
-    // CEK RIWAYAT PENDAFTARAN DI HP PESERTA
-    window.addEventListener('DOMContentLoaded', () => {
-      const isRegistered = localStorage.getItem('ayf_gathering_registered');
-      const savedName = localStorage.getItem('ayf_gathering_name');
+    // CEK REAL-TIME KE SPREADSHEET SAAT HALAMAN DIBUKA / DI-REFRESH
+    window.addEventListener('DOMContentLoaded', async () => {
+      const savedNik = localStorage.getItem('ayf_gathering_nik');
+      const savedNama = localStorage.getItem('ayf_gathering_name');
 
-      if (isRegistered === 'true') {
-        const cover = document.getElementById('cover-overlay');
-        if (cover) cover.classList.add('opened');
+      if (savedNik || savedNama) {
+        try {
+          // Tanya langsung ke spreadsheet apakah NIK/Nama ini masih ada
+          const queryUrl = `${SCRIPT_URL}?nik=${encodeURIComponent(savedNik || "")}&nama=${encodeURIComponent(savedNama || "")}`;
+          const res = await fetch(queryUrl);
+          const check = await res.json();
 
-        const alertBox = document.getElementById('statusAlert');
-        const nextContainer = document.getElementById('nextAfterSubmit');
-        const btnSubmit = document.getElementById('btnSubmit');
+          if (check.registered) {
+            // JIKA NAMA MASIH ADA DI SPREADSHEET: Kunci form & langsung ke Step 2
+            const cover = document.getElementById('cover-overlay');
+            if (cover) cover.classList.add('opened');
 
-        if (alertBox) {
-          alertBox.className = "status-alert success";
-          alertBox.innerHTML = `
-            <i class="fa-solid fa-circle-check"></i> 
-            <strong>Anda Sudah Terdaftar!</strong><br>
-            Halo, <b>${savedName || 'Peserta'}</b>. Data Anda sudah tersimpan sebelumnya.
-          `;
-          alertBox.style.display = 'block';
+            const alertBox = document.getElementById('statusAlert');
+            const nextContainer = document.getElementById('nextAfterSubmit');
+            const btnSubmit = document.getElementById('btnSubmit');
+
+            if (alertBox) {
+              alertBox.className = "status-alert success";
+              alertBox.innerHTML = `
+                <i class="fa-solid fa-circle-check"></i> 
+                <strong>Anda Sudah Terdaftar!</strong><br>
+                Halo, <b>${check.name}</b>. Data Anda sudah tercatat di sistem kami.
+              `;
+              alertBox.style.display = 'block';
+            }
+
+            if (btnSubmit) btnSubmit.style.display = 'none';
+            if (nextContainer) nextContainer.style.display = 'block';
+
+            goToStep(2);
+          } else {
+            // JIKA SUDAH KAMU HAPUS DARI SPREADSHEET: Reset memori HP agar bisa daftar lagi!
+            localStorage.removeItem('ayf_gathering_registered');
+            localStorage.removeItem('ayf_gathering_name');
+            localStorage.removeItem('ayf_gathering_nik');
+          }
+        } catch (e) {
+          console.log("Cek database dilewati:", e);
         }
-
-        if (btnSubmit) btnSubmit.style.display = 'none';
-        if (nextContainer) nextContainer.style.display = 'block';
-
-        goToStep(2);
       }
     });
 
@@ -1407,7 +1424,7 @@
       };
 
       btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan data...';
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa data...';
       alertBox.style.display = 'none';
 
       try {
@@ -1420,6 +1437,7 @@
         const result = await response.json();
 
         if (result.status === "success") {
+          // Simpan ke memori HP
           localStorage.setItem('ayf_gathering_registered', 'true');
           localStorage.setItem('ayf_gathering_name', namaVal);
           localStorage.setItem('ayf_gathering_nik', nikVal);
@@ -1430,12 +1448,19 @@
           
           btn.style.display = 'none';
           nextContainer.style.display = 'block';
+        } else if (result.status === "already_registered") {
+          // JIKA NAMA/NIK SUDAH ADA DI SPREADSHEET
+          alertBox.className = "status-alert error";
+          alertBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <strong>Gagal Mendaftar:</strong> NIK atau Nama ini sudah terdaftar di database!';
+          alertBox.style.display = 'block';
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> KIRIM DATA KEHADIRAN';
         } else {
           throw new Error(result.message);
         }
       } catch (err) {
         alertBox.className = "status-alert error";
-        alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Gagal menyimpan data: ' + err.message;
+        alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Terjadi kesalahan: ' + err.message;
         alertBox.style.display = 'block';
         btn.disabled = false;
         btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> KIRIM DATA KEHADIRAN';
