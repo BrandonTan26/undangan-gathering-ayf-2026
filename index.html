@@ -1302,6 +1302,36 @@
     const musicBtn = document.getElementById('musicToggle');
     let isPlaying = false;
 
+    // CEK RIWAYAT PENDAFTARAN DI HP PESERTA
+    window.addEventListener('DOMContentLoaded', () => {
+      const isRegistered = localStorage.getItem('ayf_gathering_registered');
+      const savedName = localStorage.getItem('ayf_gathering_name');
+
+      if (isRegistered === 'true') {
+        const cover = document.getElementById('cover-overlay');
+        if (cover) cover.classList.add('opened');
+
+        const alertBox = document.getElementById('statusAlert');
+        const nextContainer = document.getElementById('nextAfterSubmit');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        if (alertBox) {
+          alertBox.className = "status-alert success";
+          alertBox.innerHTML = `
+            <i class="fa-solid fa-circle-check"></i> 
+            <strong>Anda Sudah Terdaftar!</strong><br>
+            Halo, <b>${savedName || 'Peserta'}</b>. Data Anda sudah tersimpan sebelumnya.
+          `;
+          alertBox.style.display = 'block';
+        }
+
+        if (btnSubmit) btnSubmit.style.display = 'none';
+        if (nextContainer) nextContainer.style.display = 'block';
+
+        goToStep(2);
+      }
+    });
+
     function openInvitation() {
       document.getElementById('cover-overlay').classList.add('opened');
       bgMusic.play().then(() => {
@@ -1324,14 +1354,16 @@
 
     function selectGender(val) {
       selectedGender = val;
-      document.getElementById('genderError').style.display = 'none';
+      const err = document.getElementById('genderError');
+      if (err) err.style.display = 'none';
       document.getElementById('labelPria').classList.toggle('selected', val === 'Pria');
       document.getElementById('labelWanita').classList.toggle('selected', val === 'Wanita');
     }
 
     function goToStep(stepNumber) {
       for (let i = 1; i <= 6; i++) {
-        document.getElementById('step' + i).classList.remove('active');
+        const stepEl = document.getElementById('step' + i);
+        if (stepEl) stepEl.classList.remove('active');
         const node = document.getElementById('node' + i);
         if (node) {
           node.classList.remove('active');
@@ -1343,7 +1375,8 @@
         }
       }
 
-      document.getElementById('step' + stepNumber).classList.add('active');
+      const targetStep = document.getElementById('step' + stepNumber);
+      if (targetStep) targetStep.classList.add('active');
       const activeNode = document.getElementById('node' + stepNumber);
       if (activeNode) activeNode.classList.add('active');
 
@@ -1353,9 +1386,9 @@
     async function submitData(e) {
       e.preventDefault();
 
-      // VALIDASI KETAT: Pria/Wanita wajib dipilih
       if (!selectedGender) {
-        document.getElementById('genderError').style.display = 'block';
+        const err = document.getElementById('genderError');
+        if (err) err.style.display = 'block';
         return;
       }
 
@@ -1363,9 +1396,12 @@
       const alertBox = document.getElementById('statusAlert');
       const nextContainer = document.getElementById('nextAfterSubmit');
 
+      const namaVal = document.getElementById('nama').value.trim();
+      const nikVal = document.getElementById('nik').value.trim();
+
       const payload = {
-        nik: document.getElementById('nik').value.trim(),
-        nama: document.getElementById('nama').value.trim(),
+        nik: nikVal,
+        nama: namaVal,
         ac: document.getElementById('ac').value,
         gender: selectedGender
       };
@@ -1384,6 +1420,10 @@
         const result = await response.json();
 
         if (result.status === "success") {
+          localStorage.setItem('ayf_gathering_registered', 'true');
+          localStorage.setItem('ayf_gathering_name', namaVal);
+          localStorage.setItem('ayf_gathering_nik', nikVal);
+
           alertBox.className = "status-alert success";
           alertBox.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Registrasi Berhasil!</strong> Data Anda telah tersimpan.';
           alertBox.style.display = 'block';
