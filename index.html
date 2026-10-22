@@ -452,6 +452,78 @@
       border: 1.5px solid #fca5a5;
     }
 
+    /* SEPARATOR & LOGIN BOX */
+    .divider-login {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 28px 0 18px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .divider-login::before,
+    .divider-login::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1.5px dashed #cbd5e1;
+    }
+
+    .divider-login:not(:empty)::before {
+      margin-right: 12px;
+    }
+
+    .divider-login:not(:empty)::after {
+      margin-left: 12px;
+    }
+
+    .login-container {
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .login-container h4 {
+      font-size: 0.95rem;
+      color: var(--primary-navy);
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .login-container p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .login-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-login {
+      background: var(--accent-gold);
+      color: #0b2545;
+      font-weight: 800;
+      border: none;
+      padding: 0 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 0.88rem;
+      box-shadow: 0 4px 12px rgba(255, 183, 3, 0.3);
+    }
+
+    .btn-login:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+    }
+
     /* STEP NAVIGATION BUTTONS */
     .step-nav-bar {
       display: flex;
@@ -636,7 +708,7 @@
       flex-shrink: 0;
     }
 
-    /* RINCIAN BIAYA STYLES */
+    /* RINCIAN BIAYA */
     .budget-card {
       background: #fff;
       border: 1px solid #e2e8f0;
@@ -735,7 +807,7 @@
       text-align: center;
     }
 
-    /* CLOSING & THANKS */
+    /* CLOSING & APRESIASI */
     .closing-card {
       background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
       border: 1px solid #cbd5e1;
@@ -891,7 +963,7 @@
       </div>
     </div>
 
-    <!-- ================= STEP 1: FORM REGISTRASI ================= -->
+    <!-- ================= STEP 1: FORM REGISTRASI & LOGIN NIK ================= -->
     <section id="step1" class="step-section active">
       <div class="form-container">
         <div class="form-header">
@@ -953,13 +1025,31 @@
           <div id="statusAlert" class="status-alert"></div>
         </form>
 
-        <!-- Tombol Lanjut ke Step 2 (Hanya muncul jika sukses) -->
+        <!-- Tombol Lanjut ke Step 2 (Hanya muncul jika registrasi baru berhasil) -->
         <div id="nextAfterSubmit" style="display: none; margin-top: 20px;">
           <button class="btn-step-next" onclick="goToStep(2)">
             <span>LANJUT KE STRUKTUR PANITIA</span>
             <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
+
+        <!-- DIVIDER / PEMISAH -->
+        <div class="divider-login">ATAU</div>
+
+        <!-- LOGIN KHUSUS PESERTA YANG SUDAH MENDAFTAR (PAKAI NIK) -->
+        <div class="login-container">
+          <h4><i class="fa-solid fa-circle-question" style="color:var(--accent-gold);"></i> Sudah Pernah Mendaftar?</h4>
+          <p>Masukkan NIK yang sudah terdaftar untuk langsung membuka rincian acara:</p>
+          
+          <div class="login-input-row">
+            <input type="text" id="loginNik" class="form-control" placeholder="Ketik NIK Anda..." inputmode="numeric" />
+            <button type="button" id="btnLogin" class="btn-login" onclick="loginByNik()">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk
+            </button>
+          </div>
+          <div id="loginAlert" class="status-alert"></div>
+        </div>
+
       </div>
     </section>
 
@@ -1302,20 +1392,16 @@
     const musicBtn = document.getElementById('musicToggle');
     let isPlaying = false;
 
-    // CEK REAL-TIME KE SPREADSHEET SAAT HALAMAN DIBUKA / DI-REFRESH
+    // CEK RIWAYAT PENDAFTARAN REAL-TIME DARI LOCALSTORAGE KE GOOGLE SHEETS
     window.addEventListener('DOMContentLoaded', async () => {
       const savedNik = localStorage.getItem('ayf_gathering_nik');
-      const savedNama = localStorage.getItem('ayf_gathering_name');
 
-      if (savedNik || savedNama) {
+      if (savedNik) {
         try {
-          // Tanya langsung ke spreadsheet apakah NIK/Nama ini masih ada
-          const queryUrl = `${SCRIPT_URL}?nik=${encodeURIComponent(savedNik || "")}&nama=${encodeURIComponent(savedNama || "")}`;
-          const res = await fetch(queryUrl);
+          const res = await fetch(`${SCRIPT_URL}?nik=${encodeURIComponent(savedNik)}`);
           const check = await res.json();
 
           if (check.registered) {
-            // JIKA NAMA MASIH ADA DI SPREADSHEET: Kunci form & langsung ke Step 2
             const cover = document.getElementById('cover-overlay');
             if (cover) cover.classList.add('opened');
 
@@ -1338,13 +1424,13 @@
 
             goToStep(2);
           } else {
-            // JIKA SUDAH KAMU HAPUS DARI SPREADSHEET: Reset memori HP agar bisa daftar lagi!
+            // Data sudah dihapus dari spreadsheet, bersihkan memori
             localStorage.removeItem('ayf_gathering_registered');
             localStorage.removeItem('ayf_gathering_name');
             localStorage.removeItem('ayf_gathering_nik');
           }
         } catch (e) {
-          console.log("Cek database dilewati:", e);
+          console.log("Cek database otomatis:", e);
         }
       }
     });
@@ -1400,6 +1486,7 @@
       window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
+    // FUNGSI 1: SUBMIT REGISTRASI BARU
     async function submitData(e) {
       e.preventDefault();
 
@@ -1424,7 +1511,7 @@
       };
 
       btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa data...';
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan data...';
       alertBox.style.display = 'none';
 
       try {
@@ -1437,7 +1524,6 @@
         const result = await response.json();
 
         if (result.status === "success") {
-          // Simpan ke memori HP
           localStorage.setItem('ayf_gathering_registered', 'true');
           localStorage.setItem('ayf_gathering_name', namaVal);
           localStorage.setItem('ayf_gathering_nik', nikVal);
@@ -1449,9 +1535,8 @@
           btn.style.display = 'none';
           nextContainer.style.display = 'block';
         } else if (result.status === "already_registered") {
-          // JIKA NAMA/NIK SUDAH ADA DI SPREADSHEET
           alertBox.className = "status-alert error";
-          alertBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <strong>Gagal Mendaftar:</strong> NIK atau Nama ini sudah terdaftar di database!';
+          alertBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <strong>Peringatan:</strong> NIK atau Nama ini sudah terdaftar di database! Silakan masuk menggunakan form Login NIK di bawah.';
           alertBox.style.display = 'block';
           btn.disabled = false;
           btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> KIRIM DATA KEHADIRAN';
@@ -1460,10 +1545,61 @@
         }
       } catch (err) {
         alertBox.className = "status-alert error";
-        alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Terjadi kesalahan: ' + err.message;
+        alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Gagal menyimpan data: ' + err.message;
         alertBox.style.display = 'block';
         btn.disabled = false;
         btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> KIRIM DATA KEHADIRAN';
+      }
+    }
+
+    // FUNGSI 2: LOGIN MENGGUNAKAN NIK SAJA
+    async function loginByNik() {
+      const nikInput = document.getElementById('loginNik');
+      const nikVal = nikInput.value.trim();
+      const loginAlert = document.getElementById('loginAlert');
+      const btnLogin = document.getElementById('btnLogin');
+
+      if (!nikVal) {
+        loginAlert.className = "status-alert error";
+        loginAlert.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Harap masukkan NIK Anda!';
+        loginAlert.style.display = 'block';
+        return;
+      }
+
+      btnLogin.disabled = true;
+      btnLogin.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Cek...';
+      loginAlert.style.display = 'none';
+
+      try {
+        const res = await fetch(`${SCRIPT_URL}?nik=${encodeURIComponent(nikVal)}`);
+        const check = await res.json();
+
+        if (check.registered) {
+          // NIK DITEMUKAN DI SPREADSHEET
+          localStorage.setItem('ayf_gathering_registered', 'true');
+          localStorage.setItem('ayf_gathering_name', check.name);
+          localStorage.setItem('ayf_gathering_nik', nikVal);
+
+          loginAlert.className = "status-alert success";
+          loginAlert.innerHTML = `<i class="fa-solid fa-circle-check"></i> Selamat datang kembali, <b>${check.name}</b>! Mengalihkan...`;
+          loginAlert.style.display = 'block';
+
+          setTimeout(() => {
+            goToStep(2);
+          }, 800);
+        } else {
+          // NIK TIDAK DITEMUKAN
+          loginAlert.className = "status-alert error";
+          loginAlert.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <strong>NIK Tidak Ditemukan!</strong> Pastikan Anda telah mengisi formulir registrasi di atas terlebih dahulu.';
+          loginAlert.style.display = 'block';
+        }
+      } catch (err) {
+        loginAlert.className = "status-alert error";
+        loginAlert.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Gagal memeriksa NIK: ' + err.message;
+        loginAlert.style.display = 'block';
+      } finally {
+        btnLogin.disabled = false;
+        btnLogin.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk';
       }
     }
   </script>
