@@ -123,12 +123,6 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       margin-bottom: 20px;
-      animation: pulseBadge 2s infinite;
-    }
-
-    @keyframes pulseBadge {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
     }
 
     .cover-title {
@@ -182,7 +176,7 @@
       transform: scale(1.06);
     }
 
-    /* TOMBOL MUSIK */
+    /* TOMBOL MUSIK FLOATING */
     .music-btn {
       position: fixed;
       bottom: 24px;
@@ -248,13 +242,14 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* STEP PROGRESS BAR */
+    /* STEP INDICATOR (6 STEPS) */
     .step-indicator {
       display: flex;
       justify-content: space-between;
-      padding: 20px 24px 10px;
+      padding: 16px 12px 10px;
       background: #f1f5f9;
       border-bottom: 1px solid #e2e8f0;
+      overflow-x: auto;
     }
 
     .step-node {
@@ -262,16 +257,16 @@
       flex-direction: column;
       align-items: center;
       gap: 4px;
-      font-size: 0.72rem;
+      font-size: 0.65rem;
       font-weight: 700;
       color: #94a3b8;
-      position: relative;
+      min-width: 60px;
       flex: 1;
     }
 
     .step-num {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       background: #cbd5e1;
       color: var(--white);
@@ -279,12 +274,12 @@
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
 
     .step-node.active .step-num {
       background: var(--secondary-blue);
-      box-shadow: 0 0 0 4px rgba(19, 64, 116, 0.2);
+      box-shadow: 0 0 0 3px rgba(19, 64, 116, 0.2);
     }
 
     .step-node.active {
@@ -295,7 +290,7 @@
       background: #10b981;
     }
 
-    /* STEP CONTENT CONTAINER */
+    /* STEP SECTION */
     .step-section {
       display: none;
       padding: 24px 20px 40px;
@@ -310,6 +305,16 @@
     @keyframes fadeInStep {
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-headline {
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-align: center;
+      color: var(--primary-navy);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     /* FORM STYLES */
@@ -362,6 +367,7 @@
       font-family: inherit;
       outline: none;
       transition: border 0.3s ease;
+      background-color: var(--white);
     }
 
     .form-control:focus {
@@ -484,7 +490,7 @@
       gap: 6px;
     }
 
-    /* STRUKTUR PANITIA STYLES */
+    /* STRUKTUR PANITIA */
     .org-chart {
       display: flex;
       flex-direction: column;
@@ -582,7 +588,7 @@
       flex-shrink: 0;
     }
 
-    /* RUNDOWN STYLES */
+    /* RUNDOWN */
     .timeline-card {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -630,7 +636,65 @@
       flex-shrink: 0;
     }
 
-    /* GALERI FOTO STYLES */
+    /* RINCIAN BIAYA STYLES */
+    .budget-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--card-radius);
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    }
+
+    .budget-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-top: 10px;
+    }
+
+    .budget-table th {
+      background: var(--secondary-blue);
+      color: #fff;
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .budget-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .budget-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    .highlight-row {
+      background: #fef08a !important;
+      font-weight: 800;
+    }
+
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .benefit-item {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #166534;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* GALERI */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -669,6 +733,71 @@
       font-weight: 600;
       padding: 8px 10px;
       text-align: center;
+    }
+
+    /* CLOSING & THANKS */
+    .closing-card {
+      background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid #cbd5e1;
+      border-radius: var(--card-radius);
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    }
+
+    .closing-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--primary-navy);
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .thanks-box {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-left: 4px solid var(--accent-gold);
+      text-align: left;
+    }
+
+    .thanks-box h4 {
+      font-size: 0.95rem;
+      color: var(--primary-navy);
+      margin-bottom: 6px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .thanks-box p {
+      font-size: 0.85rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .transport-pill-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .transport-pill {
+      background: #eff6ff;
+      border: 1px solid #93c5fd;
+      color: var(--secondary-blue);
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 6px 12px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     /* FOOTER */
@@ -750,7 +879,15 @@
       </div>
       <div class="step-node" id="node4">
         <div class="step-num">4</div>
+        <span>Rincian</span>
+      </div>
+      <div class="step-node" id="node5">
+        <div class="step-num">5</div>
         <span>Galeri</span>
+      </div>
+      <div class="step-node" id="node6">
+        <div class="step-num">6</div>
+        <span>Apresiasi</span>
       </div>
     </div>
 
@@ -759,7 +896,7 @@
       <div class="form-container">
         <div class="form-header">
           <h3>Formulir Registrasi Peserta</h3>
-          <p>Silakan isi data diri terlebih dahulu untuk melanjutkan</p>
+          <p>Silakan lengkapi data diri Anda untuk konfirmasi kehadiran</p>
         </div>
 
         <form id="rsvpForm" onsubmit="submitData(event)">
@@ -775,25 +912,37 @@
             <input type="text" id="nama" class="form-control" placeholder="Masukkan Nama Lengkap" required />
           </div>
 
-          <!-- AC -->
+          <!-- AC (DROPDOWN PILIHAN) -->
           <div class="form-group">
             <label for="ac"><i class="fa-solid fa-building"></i> AC</label>
-            <input type="text" id="ac" class="form-control" placeholder="Contoh: AC 01" required />
+            <select id="ac" class="form-control" required>
+              <option value="" disabled selected>-- Pilih AC --</option>
+              <option value="MUHAMAD SYAH FITRIYADI">MUHAMAD SYAH FITRIYADI</option>
+              <option value="NANANG MULYANA">NANANG MULYANA</option>
+              <option value="ANWAR MULYANA">ANWAR MULYANA</option>
+              <option value="ARI NOVIAN">ARI NOVIAN</option>
+              <option value="HASANUDIN JAFAR">HASANUDIN JAFAR</option>
+              <option value="KOMARUDIN">KOMARUDIN</option>
+              <option value="DWI KUSWANTO">DWI KUSWANTO</option>
+            </select>
           </div>
 
-          <!-- JENIS KELAMIN -->
+          <!-- JENIS KELAMIN (WAJIB PILIH) -->
           <div class="form-group">
-            <label><i class="fa-solid fa-venus-mars"></i> Jenis Kelamin</label>
+            <label><i class="fa-solid fa-venus-mars"></i> Jenis Kelamin *</label>
             <div class="gender-grid">
               <label class="gender-label" id="labelPria" onclick="selectGender('Pria')">
-                <input type="radio" name="gender" value="Pria" required />
+                <input type="radio" name="gender" value="Pria" />
                 <i class="fa-solid fa-mars" style="color:#0284c7;"></i> Pria
               </label>
               <label class="gender-label" id="labelWanita" onclick="selectGender('Wanita')">
-                <input type="radio" name="gender" value="Wanita" required />
+                <input type="radio" name="gender" value="Wanita" />
                 <i class="fa-solid fa-venus" style="color:#ec4899;"></i> Wanita
               </label>
             </div>
+            <small id="genderError" style="color:#dc2626; display:none; margin-top:6px; font-weight:700;">
+              * Harap pilih Jenis Kelamin (Pria/Wanita) terlebih dahulu!
+            </small>
           </div>
 
           <button type="submit" id="btnSubmit" class="btn-submit">
@@ -804,7 +953,7 @@
           <div id="statusAlert" class="status-alert"></div>
         </form>
 
-        <!-- Tombol Next (Muncul otomatis setelah sukses kirim data) -->
+        <!-- Tombol Lanjut ke Step 2 (Hanya muncul jika sukses) -->
         <div id="nextAfterSubmit" style="display: none; margin-top: 20px;">
           <button class="btn-step-next" onclick="goToStep(2)">
             <span>LANJUT KE STRUKTUR PANITIA</span>
@@ -816,18 +965,14 @@
 
     <!-- ================= STEP 2: STRUKTUR PANITIA ================= -->
     <section id="step2" class="step-section">
-      <h3 style="font-size:1.3rem; font-weight:800; text-align:center; color:var(--primary-navy); margin-bottom:20px; text-transform:uppercase;">
-        <i class="fa-solid fa-sitemap"></i> Susunan Kepanitiaan
-      </h3>
+      <h3 class="section-headline"><i class="fa-solid fa-sitemap"></i> Susunan Kepanitiaan</h3>
 
       <div class="org-chart">
-        <!-- KETUA -->
         <div class="org-card">
           <span class="org-role gold"><i class="fa-solid fa-crown"></i> Ketua Panitia</span>
           <div class="org-name">ERICK</div>
         </div>
 
-        <!-- BENDAHARA & SEKRETARIS -->
         <div class="row-flex">
           <div class="org-card">
             <span class="org-role"><i class="fa-solid fa-wallet"></i> Bendahara</span>
@@ -839,7 +984,6 @@
           </div>
         </div>
 
-        <!-- MC -->
         <div class="row-flex">
           <div class="org-card">
             <span class="org-role" style="background:#0284c7;"><i class="fa-solid fa-microphone"></i> MC</span>
@@ -856,7 +1000,6 @@
         </div>
       </div>
 
-      <!-- TEAM SUPPORT -->
       <div class="team-support-box">
         <div class="team-header-title">
           <i class="fa-solid fa-people-group"></i> Team Support (18 Personel)
@@ -883,7 +1026,6 @@
         </div>
       </div>
 
-      <!-- Navigasi Step 2 -->
       <div class="step-nav-bar">
         <button class="btn-step-prev" onclick="goToStep(1)">
           <i class="fa-solid fa-arrow-left"></i> Kembali
@@ -897,11 +1039,8 @@
 
     <!-- ================= STEP 3: RUNDOWN ACARA ================= -->
     <section id="step3" class="step-section">
-      <h3 style="font-size:1.3rem; font-weight:800; text-align:center; color:var(--primary-navy); margin-bottom:20px; text-transform:uppercase;">
-        <i class="fa-regular fa-calendar-check"></i> Susunan Acara
-      </h3>
+      <h3 class="section-headline"><i class="fa-regular fa-calendar-check"></i> Susunan Acara</h3>
 
-      <!-- DAY 1 -->
       <div class="timeline-card">
         <div class="timeline-title">
           <span>DAY 1 (JUMAT, 13 NOVEMBER 2026)</span>
@@ -919,7 +1058,6 @@
         <div class="row-item"><span class="t-time">20.30 - 23.30</span> <div>Malam Keakraban / Organ Tunggal</div></div>
       </div>
 
-      <!-- DAY 2 -->
       <div class="timeline-card">
         <div class="timeline-title" style="border-color: #0284c7;">
           <span>DAY 2 (SABTU, 14 NOVEMBER 2026)</span>
@@ -933,23 +1071,126 @@
         <div class="row-item"><span class="t-time">12.00 - 13.00</span> <div>Check Out & Perjalanan Pulang</div></div>
       </div>
 
-      <!-- Navigasi Step 3 -->
       <div class="step-nav-bar">
         <button class="btn-step-prev" onclick="goToStep(2)">
           <i class="fa-solid fa-arrow-left"></i> Kembali
         </button>
         <button class="btn-step-next" onclick="goToStep(4)">
+          <span>LANJUT KE RINCIAN BIAYA</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= STEP 4: RINCIAN BIAYA & BENEFIT ================= -->
+    <section id="step4" class="step-section">
+      <h3 class="section-headline"><i class="fa-solid fa-file-invoice-dollar"></i> Transparansi Rincian Biaya</h3>
+
+      <!-- TABEL UANG MASUK & KONTRIBUSI -->
+      <div class="budget-card">
+        <h4 style="font-size:0.95rem; font-weight:800; color:var(--primary-navy); margin-bottom:8px;">
+          <i class="fa-solid fa-hand-holding-dollar"></i> Sumber Pendanaan / Uang Masuk
+        </h4>
+        <table class="budget-table">
+          <thead>
+            <tr>
+              <th>Kategori</th>
+              <th style="text-align:center;">Peserta</th>
+              <th style="text-align:right;">Per Orang</th>
+              <th style="text-align:right;">Total Uang</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Chief of Store (COS)</td>
+              <td style="text-align:center;">135</td>
+              <td style="text-align:right;">Rp 319.919</td>
+              <td style="text-align:right;">Rp 43.189.092</td>
+            </tr>
+            <tr>
+              <td>Area Coordinator (AC)</td>
+              <td style="text-align:center;">7</td>
+              <td style="text-align:right;">Rp 400.000</td>
+              <td style="text-align:right;">Rp 2.800.000</td>
+            </tr>
+            <tr>
+              <td>Area Manager (AM)</td>
+              <td style="text-align:center;">1</td>
+              <td style="text-align:right;">Rp 600.000</td>
+              <td style="text-align:right;">Rp 600.000</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>TOTAL PESERTA</strong></td>
+              <td style="text-align:center;"><strong>143</strong></td>
+              <td style="text-align:right;">-</td>
+              <td style="text-align:right;"><strong>Rp 46.589.092</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ALOKASI PENGELUARAN -->
+      <div class="budget-card">
+        <h4 style="font-size:0.95rem; font-weight:800; color:var(--primary-navy); margin-bottom:8px;">
+          <i class="fa-solid fa-receipt"></i> Rincian Alokasi Pengeluaran Acara
+        </h4>
+        <table class="budget-table">
+          <thead>
+            <tr>
+              <th>Item Kebutuhan</th>
+              <th style="text-align:center;">Qty</th>
+              <th style="text-align:right;">Nominal (Rp)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Paket Resort (143 Peserta @285.000)</td><td style="text-align:center;">143</td><td style="text-align:right;">40.755.000</td></tr>
+            <tr><td>Banner (4 Pcs)</td><td style="text-align:center;">4</td><td style="text-align:right;">100.000</td></tr>
+            <tr><td>Peralatan Game</td><td style="text-align:center;">143</td><td style="text-align:right;">143.000</td></tr>
+            <tr><td>Lain-Lain</td><td style="text-align:center;">143</td><td style="text-align:right;">429.000</td></tr>
+            <tr><td>Transportasi 7 Armada</td><td style="text-align:center;">7</td><td style="text-align:right;">1.610.000</td></tr>
+            <tr><td>Transportasi 8 Armada</td><td style="text-align:center;">8</td><td style="text-align:right;">1.320.000</td></tr>
+            <tr><td>Transport Survei Lokasi</td><td style="text-align:center;">1</td><td style="text-align:right;">185.000</td></tr>
+            <tr><td>Hadiah / Fun Games</td><td style="text-align:center;">10</td><td style="text-align:right;">1.000.000</td></tr>
+            <tr><td>Konsumsi Sopir</td><td style="text-align:center;">4</td><td style="text-align:right;">540.000</td></tr>
+            <tr><td>Air Mineral Peserta</td><td style="text-align:center;">143</td><td style="text-align:right;">507.092</td></tr>
+            <tr class="highlight-row">
+              <td colspan="2"><strong>TOTAL PENGELUARAN KESELURUHAN</strong></td>
+              <td style="text-align:right;"><strong>Rp 46.589.092</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BENEFIT RESORT -->
+      <div class="budget-card">
+        <h4 style="font-size:0.95rem; font-weight:800; color:var(--primary-navy); margin-bottom:4px;">
+          <i class="fa-solid fa-gift"></i> Fasilitas & Benefit yang Didapatkan
+        </h4>
+        <div class="benefit-grid">
+          <div class="benefit-item"><i class="fa-solid fa-utensils"></i> Makan 3x</div>
+          <div class="benefit-item"><i class="fa-solid fa-mug-hot"></i> Coffee Break 2x</div>
+          <div class="benefit-item"><i class="fa-solid fa-building-columns"></i> Aula / Hall Indoor</div>
+          <div class="benefit-item"><i class="fa-solid fa-music"></i> Panggung Konser</div>
+          <div class="benefit-item"><i class="fa-solid fa-futbol"></i> Lapangan Futsal</div>
+          <div class="benefit-item"><i class="fa-solid fa-water-ladder"></i> Kolam Renang</div>
+          <div class="benefit-item" style="grid-column: span 2;"><i class="fa-solid fa-bed"></i> Penginapan Kamar (24 Kamar)</div>
+        </div>
+      </div>
+
+      <div class="step-nav-bar">
+        <button class="btn-step-prev" onclick="goToStep(3)">
+          <i class="fa-solid fa-arrow-left"></i> Kembali
+        </button>
+        <button class="btn-step-next" onclick="goToStep(5)">
           <span>LANJUT KE GALERI FOTO</span>
           <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
     </section>
 
-    <!-- ================= STEP 4: GALERI FOTO ================= -->
-    <section id="step4" class="step-section">
-      <h3 style="font-size:1.3rem; font-weight:800; text-align:center; color:var(--primary-navy); margin-bottom:20px; text-transform:uppercase;">
-        <i class="fa-solid fa-images"></i> Suasana Robinson Resort
-      </h3>
+    <!-- ================= STEP 5: GALERI FOTO ================= -->
+    <section id="step5" class="step-section">
+      <h3 class="section-headline"><i class="fa-solid fa-images"></i> Suasana Robinson Resort</h3>
 
       <div class="gallery-grid">
         <div class="gallery-item">
@@ -986,10 +1227,65 @@
         </div>
       </div>
 
-      <!-- Navigasi Step 4 -->
       <div class="step-nav-bar">
-        <button class="btn-step-prev" onclick="goToStep(3)">
-          <i class="fa-solid fa-arrow-left"></i> Kembali ke Rundown
+        <button class="btn-step-prev" onclick="goToStep(4)">
+          <i class="fa-solid fa-arrow-left"></i> Kembali ke Rincian
+        </button>
+        <button class="btn-step-next" onclick="goToStep(6)">
+          <span>LANJUT KE PENUTUP & APRESIASI</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= STEP 6: CLOSING & APRESIASI ================= -->
+    <section id="step6" class="step-section">
+      <h3 class="section-headline"><i class="fa-solid fa-heart"></i> Pesan & Apresiasi</h3>
+
+      <div class="closing-card">
+        <div class="closing-quote">
+          "Bukan sekadar jarak yang kita tempuh, melainkan kebersamaan yang kita rawat. 
+          Family Gathering ini adalah jembatan hati untuk mempererat tali silaturahmi, 
+          melebur penat menjadi tawa, dan meneguhkan kekompakan kita sebagai satu keluarga besar yang tak terpisahkan. 
+          Karena bersama, kita jauh lebih kuat."
+        </div>
+
+        <!-- UCAPAN TERIMA KASIH UTAMA -->
+        <div class="thanks-box">
+          <h4><i class="fa-solid fa-award" style="color:var(--accent-gold);"></i> Rasa Hormat & Terima Kasih Kami</h4>
+          <p>
+            Terima kasih yang sebesar-besarnya kepada <strong>Bapak AM Ahmad Yusuf</strong> atas arahan, bimbingan, 
+            dan dukungan penuhnya, serta segenap <strong>Jajaran AC</strong> dan seluruh <strong>Rekan-Rekan Panitia</strong> 
+            yang telah mendedikasikan waktu, tenaga, dan ide demi terselenggaranya Family Gathering Area AYF 2026 ini dengan sukses.
+          </p>
+        </div>
+
+        <!-- UCAPAN TERIMA KASIH AC PERBANTUAN TRANSPORTASI -->
+        <div class="thanks-box" style="border-left-color: #0284c7;">
+          <h4><i class="fa-solid fa-van-shuttle" style="color:#0284c7;"></i> Apresiasi Khusus: AC Perbantuan Transportasi</h4>
+          <p>
+            Penghargaan setinggi-tingginya kepada Rekan-rekan <strong>AC Perbantuan</strong> yang dengan penuh keikhlasan 
+            dan solidaritas telah meluangkan waktu serta armadanya untuk kelancaran mobilitas & transportasi keberangkatan kita semua:
+          </p>
+          <div class="transport-pill-grid">
+            <span class="transport-pill"><i class="fa-solid fa-car"></i> ABUD</span>
+            <span class="transport-pill"><i class="fa-solid fa-car"></i> IRAWAN</span>
+            <span class="transport-pill"><i class="fa-solid fa-car"></i> FINA</span>
+            <span class="transport-pill"><i class="fa-solid fa-car"></i> ISRONI</span>
+            <span class="transport-pill"><i class="fa-solid fa-car"></i> FAUZI</span>
+            <span class="transport-pill"><i class="fa-solid fa-car"></i> YUDI</span>
+            <span class="transport-pill"><i class="fa-solid fa-car"></i> FERI</span>
+          </div>
+        </div>
+
+        <p style="font-size:0.85rem; color:#64748b; margin-top:20px; font-weight:600;">
+          Sampai jumpa di Robinson Resort Cisarua! Mari ciptakan momen kebersamaan yang indah dan tak terlupakan.
+        </p>
+      </div>
+
+      <div class="step-nav-bar">
+        <button class="btn-step-prev" onclick="goToStep(5)">
+          <i class="fa-solid fa-arrow-left"></i> Kembali ke Galeri
         </button>
       </div>
     </section>
@@ -1014,7 +1310,7 @@
       bgMusic.play().then(() => {
         isPlaying = true;
         musicBtn.classList.add('playing');
-      }).catch(err => console.log("Autoplay dicegah browser"));
+      }).catch(err => console.log("Autoplay ditolak peramban"));
     }
 
     function toggleMusic() {
@@ -1031,36 +1327,38 @@
 
     function selectGender(val) {
       selectedGender = val;
+      document.getElementById('genderError').style.display = 'none';
       document.getElementById('labelPria').classList.toggle('selected', val === 'Pria');
       document.getElementById('labelWanita').classList.toggle('selected', val === 'Wanita');
     }
 
     function goToStep(stepNumber) {
-      // Sembunyikan semua step
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 6; i++) {
         document.getElementById('step' + i).classList.remove('active');
         const node = document.getElementById('node' + i);
-        node.classList.remove('active');
-        if (i < stepNumber) {
-          node.classList.add('completed');
-        } else {
-          node.classList.remove('completed');
+        if (node) {
+          node.classList.remove('active');
+          if (i < stepNumber) {
+            node.classList.add('completed');
+          } else {
+            node.classList.remove('completed');
+          }
         }
       }
 
-      // Aktifkan step yang dituju
       document.getElementById('step' + stepNumber).classList.add('active');
-      document.getElementById('node' + stepNumber).classList.add('active');
+      const activeNode = document.getElementById('node' + stepNumber);
+      if (activeNode) activeNode.classList.add('active');
 
-      // Scroll halus ke atas konten
       window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
     async function submitData(e) {
       e.preventDefault();
 
+      // VALIDASI KETAT: Pria/Wanita wajib dipilih
       if (!selectedGender) {
-        alert("Silakan pilih Jenis Kelamin (Pria/Wanita).");
+        document.getElementById('genderError').style.display = 'block';
         return;
       }
 
@@ -1071,7 +1369,7 @@
       const payload = {
         nik: document.getElementById('nik').value.trim(),
         nama: document.getElementById('nama').value.trim(),
-        ac: document.getElementById('ac').value.trim(),
+        ac: document.getElementById('ac').value,
         gender: selectedGender
       };
 
@@ -1093,8 +1391,8 @@
           alertBox.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Registrasi Berhasil!</strong> Data Anda telah tersimpan.';
           alertBox.style.display = 'block';
           
-          btn.style.display = 'none'; // Sembunyikan tombol submit
-          nextContainer.style.display = 'block'; // Tampilkan tombol Lanjut ke Panitia
+          btn.style.display = 'none';
+          nextContainer.style.display = 'block';
         } else {
           throw new Error(result.message);
         }
