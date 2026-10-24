@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Family Gathering Area AYF 2026 - Robinson Resort Cisarua</title>
+  <title>LEADERS RECHARGE (Area AYF 2026) - Robinson Resort Cisarua</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;1,700&display=swap" rel="stylesheet">
@@ -94,7 +94,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(180deg, rgba(7, 27, 48, 0.75) 0%, rgba(11, 37, 69, 0.92) 100%);
+      background: linear-gradient(180deg, rgba(7, 27, 48, 0.78) 0%, rgba(11, 37, 69, 0.94) 100%);
       z-index: 2;
     }
 
@@ -122,32 +122,43 @@
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .cover-title {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       font-weight: 900;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #e0f2fe;
       text-shadow: 0 4px 20px rgba(0, 188, 212, 0.5);
+      line-height: 1.2;
     }
 
     .cover-area {
-      font-size: 1.9rem;
-      font-weight: 900;
+      font-size: 1.4rem;
+      font-weight: 800;
       color: var(--accent-gold);
-      margin-bottom: 16px;
+      margin-top: 6px;
+      margin-bottom: 10px;
       letter-spacing: 1px;
     }
 
+    .cover-tagline-motto {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #38bdf8;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+
     .formal-greeting {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       line-height: 1.7;
       color: #cbd5e1;
       max-width: 480px;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
       background: rgba(11, 37, 69, 0.65);
       backdrop-filter: blur(8px);
       padding: 16px 20px;
@@ -214,7 +225,7 @@
     }
 
     .hero-banner h1 {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 900;
       color: #f0fdf4;
       text-transform: uppercase;
@@ -222,10 +233,19 @@
     }
 
     .hero-banner h2 {
-      font-size: 1.7rem;
-      font-weight: 900;
+      font-size: 1.3rem;
+      font-weight: 800;
       color: var(--accent-gold);
-      margin-bottom: 12px;
+      margin-top: 4px;
+      margin-bottom: 6px;
+    }
+
+    .hero-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #38bdf8;
+      font-size: 1rem;
+      margin-bottom: 14px;
     }
 
     .info-pill {
@@ -242,7 +262,7 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* STEP INDICATOR (6 STEPS) */
+    /* STEP INDICATOR */
     .step-indicator {
       display: flex;
       justify-content: space-between;
@@ -262,6 +282,7 @@
       color: #94a3b8;
       min-width: 60px;
       flex: 1;
+      cursor: pointer;
     }
 
     .step-num {
@@ -275,6 +296,7 @@
       justify-content: center;
       font-weight: 800;
       font-size: 0.75rem;
+      transition: all 0.3s ease;
     }
 
     .step-node.active .step-num {
@@ -290,21 +312,30 @@
       background: #10b981;
     }
 
-    /* STEP SECTION */
+    /* TRANSISI PERPINDAHAN STEP DENGAN FADE & SLIDE HALUS */
     .step-section {
       display: none;
       padding: 24px 20px 40px;
-      flex: 1;
-      animation: fadeInStep 0.4s ease;
+      opacity: 0;
+      transform: translateX(40px) scale(0.97);
+      transition: opacity 0.45s cubic-bezier(0.25, 1, 0.5, 1), 
+                  transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .step-section.active {
       display: block;
+      opacity: 1;
+      transform: translateX(0) scale(1);
     }
 
-    @keyframes fadeInStep {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+    .step-section.slide-out-left {
+      opacity: 0 !important;
+      transform: translateX(-40px) scale(0.97) !important;
+    }
+
+    .step-section.slide-out-right {
+      opacity: 0 !important;
+      transform: translateX(40px) scale(0.97) !important;
     }
 
     .section-headline {
@@ -452,7 +483,7 @@
       border: 1.5px solid #fca5a5;
     }
 
-    /* SEPARATOR & LOGIN BOX */
+    /* DIVIDER & LOGIN */
     .divider-login {
       display: flex;
       align-items: center;
@@ -472,13 +503,8 @@
       border-bottom: 1.5px dashed #cbd5e1;
     }
 
-    .divider-login:not(:empty)::before {
-      margin-right: 12px;
-    }
-
-    .divider-login:not(:empty)::after {
-      margin-left: 12px;
-    }
+    .divider-login:not(:empty)::before { margin-right: 12px; }
+    .divider-login:not(:empty)::after { margin-left: 12px; }
 
     .login-container {
       background: #f8fafc;
@@ -737,9 +763,7 @@
       border-bottom: 1px solid #e2e8f0;
     }
 
-    .budget-table tr:nth-child(even) {
-      background: #f8fafc;
-    }
+    .budget-table tr:nth-child(even) { background: #f8fafc; }
 
     .highlight-row {
       background: #fef08a !important;
@@ -901,19 +925,20 @@
     <i class="fa-solid fa-music"></i>
   </button>
 
-  <!-- COVER FORMAL PEMBUKA -->
+  <!-- ================= COVER UTAMA DENGAN REVISI JUDUL & TAGLINE ================= -->
   <div id="cover-overlay">
     <div class="cover-bg-motion"></div>
     <div class="cover-overlay-gradient"></div>
 
     <div class="cover-content">
-      <div class="cover-badge"><i class="fa-solid fa-envelope-open-text"></i> Official Invitation</div>
-      <div class="cover-title">Gathering</div>
-      <div class="cover-area">Area AYF</div>
+      <div class="cover-badge"><i class="fa-solid fa-bolt"></i> Official Invitation</div>
+      <div class="cover-title">LEADERS RECHARGE</div>
+      <div class="cover-area">(Area AYF 2026)</div>
+      <div class="cover-tagline-motto">"Ngumpul, ngobrol, nge gas.."</div>
 
       <div class="formal-greeting">
-        Dengan penuh rasa hormat, kami mengundang Bapak/Ibu dan Rekan-rekan sekalian untuk menghadiri acara kebersamaan 
-        <strong>Family Gathering Area AYF 2026</strong> di Robinson Resort Cisarua.
+        Dengan penuh rasa hormat, kami mengundang Rekan-rekan sekalian untuk hadir dalam agenda kebersamaan 
+        <strong>LEADERS RECHARGE (Area AYF 2026)</strong> di Robinson Resort Cisarua.
       </div>
 
       <button class="btn-open" onclick="openInvitation()">
@@ -926,8 +951,9 @@
   <!-- CONTAINER UTAMA -->
   <div class="main-wrapper">
     <header class="hero-banner">
-      <h1>Gathering</h1>
-      <h2>Area AYF</h2>
+      <h1>LEADERS RECHARGE</h1>
+      <h2>(Area AYF 2026)</h2>
+      <div class="hero-tagline">"Ngumpul, ngobrol, nge gas.."</div>
       <div class="info-pill">
         <span><i class="fa-regular fa-calendar-days"></i> 13 - 14 November 2026</span>
         <span>•</span>
@@ -937,27 +963,27 @@
 
     <!-- STEP PROGRESS INDICATOR -->
     <div class="step-indicator">
-      <div class="step-node active" id="node1">
+      <div class="step-node active" id="node1" onclick="handleNavClick(1)">
         <div class="step-num">1</div>
         <span>Registrasi</span>
       </div>
-      <div class="step-node" id="node2">
+      <div class="step-node" id="node2" onclick="handleNavClick(2)">
         <div class="step-num">2</div>
         <span>Panitia</span>
       </div>
-      <div class="step-node" id="node3">
+      <div class="step-node" id="node3" onclick="handleNavClick(3)">
         <div class="step-num">3</div>
         <span>Rundown</span>
       </div>
-      <div class="step-node" id="node4">
+      <div class="step-node" id="node4" onclick="handleNavClick(4)">
         <div class="step-num">4</div>
         <span>Rincian</span>
       </div>
-      <div class="step-node" id="node5">
+      <div class="step-node" id="node5" onclick="handleNavClick(5)">
         <div class="step-num">5</div>
         <span>Galeri</span>
       </div>
-      <div class="step-node" id="node6">
+      <div class="step-node" id="node6" onclick="handleNavClick(6)">
         <div class="step-num">6</div>
         <span>Apresiasi</span>
       </div>
@@ -972,19 +998,16 @@
         </div>
 
         <form id="rsvpForm" onsubmit="submitData(event)">
-          <!-- NIK -->
           <div class="form-group">
             <label for="nik"><i class="fa-solid fa-id-card"></i> NIK</label>
             <input type="text" id="nik" class="form-control" placeholder="Masukkan NIK" required inputmode="numeric" />
           </div>
 
-          <!-- NAMA -->
           <div class="form-group">
             <label for="nama"><i class="fa-solid fa-user"></i> Nama Lengkap</label>
             <input type="text" id="nama" class="form-control" placeholder="Masukkan Nama Lengkap" required />
           </div>
 
-          <!-- AC (DROPDOWN PILIHAN) -->
           <div class="form-group">
             <label for="ac"><i class="fa-solid fa-building"></i> AC</label>
             <select id="ac" class="form-control" required>
@@ -999,7 +1022,6 @@
             </select>
           </div>
 
-          <!-- JENIS KELAMIN (WAJIB PILIH) -->
           <div class="form-group">
             <label><i class="fa-solid fa-venus-mars"></i> Jenis Kelamin *</label>
             <div class="gender-grid">
@@ -1025,7 +1047,6 @@
           <div id="statusAlert" class="status-alert"></div>
         </form>
 
-        <!-- Tombol Lanjut ke Step 2 (Hanya muncul jika registrasi baru berhasil) -->
         <div id="nextAfterSubmit" style="display: none; margin-top: 20px;">
           <button class="btn-step-next" onclick="goToStep(2)">
             <span>LANJUT KE STRUKTUR PANITIA</span>
@@ -1033,10 +1054,8 @@
           </button>
         </div>
 
-        <!-- DIVIDER / PEMISAH -->
         <div class="divider-login">ATAU</div>
 
-        <!-- LOGIN KHUSUS PESERTA YANG SUDAH MENDAFTAR (PAKAI NIK) -->
         <div class="login-container">
           <h4><i class="fa-solid fa-circle-question" style="color:var(--accent-gold);"></i> Sudah Pernah Mendaftar?</h4>
           <p>Masukkan NIK yang sudah terdaftar untuk langsung membuka rincian acara:</p>
@@ -1049,7 +1068,6 @@
           </div>
           <div id="loginAlert" class="status-alert"></div>
         </div>
-
       </div>
     </section>
 
@@ -1097,7 +1115,7 @@
         <div class="member-grid">
           <div class="member-pill"><span class="member-num">1</span> DEWI ANGGRAENI</div>
           <div class="member-pill"><span class="member-num">2</span> WINDI AULIA</div>
-          <div class="member-pill"><span class="member-num">3</span> DEWI SUSANTI</div>
+          <div class="member-pill"><span class="member-num">3</span> SUCI SUSANTI</div>
           <div class="member-pill"><span class="member-num">4</span> DWI FEBRIANI</div>
           <div class="member-pill"><span class="member-num">5</span> WIWIN SEPTIANINGSIH</div>
           <div class="member-pill"><span class="member-num">6</span> IYUL IJATI</div>
@@ -1173,7 +1191,6 @@
     <section id="step4" class="step-section">
       <h3 class="section-headline"><i class="fa-solid fa-file-invoice-dollar"></i> Transparansi Rincian Biaya</h3>
 
-      <!-- TABEL UANG MASUK & KONTRIBUSI -->
       <div class="budget-card">
         <h4 style="font-size:0.95rem; font-weight:800; color:var(--primary-navy); margin-bottom:8px;">
           <i class="fa-solid fa-hand-holding-dollar"></i> Sumber Pendanaan / Uang Masuk
@@ -1216,7 +1233,6 @@
         </table>
       </div>
 
-      <!-- ALOKASI PENGELUARAN -->
       <div class="budget-card">
         <h4 style="font-size:0.95rem; font-weight:800; color:var(--primary-navy); margin-bottom:8px;">
           <i class="fa-solid fa-receipt"></i> Rincian Alokasi Pengeluaran Acara
@@ -1248,7 +1264,6 @@
         </table>
       </div>
 
-      <!-- BENEFIT RESORT -->
       <div class="budget-card">
         <h4 style="font-size:0.95rem; font-weight:800; color:var(--primary-navy); margin-bottom:4px;">
           <i class="fa-solid fa-gift"></i> Fasilitas & Benefit yang Didapatkan
@@ -1332,27 +1347,25 @@
       <div class="closing-card">
         <div class="closing-quote">
           "Bukan sekadar jarak yang kita tempuh, melainkan kebersamaan yang kita rawat. 
-          Family Gathering ini adalah jembatan hati untuk mempererat tali silaturahmi, 
-          melebur penat menjadi tawa, dan meneguhkan kekompakan kita sebagai satu keluarga besar yang tak terpisahkan. 
-          Karena bersama, kita jauh lebih kuat."
+          LEADERS RECHARGE ini adalah panggung untuk menguatkan silaturahmi, 
+          melebur penat menjadi tawa, dan menyatukan energi kita sebagai satu tim yang kompak. 
+          Ngumpul, ngobrol, nge gas bareng menuju pencapaian yang lebih tinggi!"
         </div>
 
-        <!-- UCAPAN TERIMA KASIH UTAMA -->
         <div class="thanks-box">
           <h4><i class="fa-solid fa-award" style="color:var(--accent-gold);"></i> Rasa Hormat & Terima Kasih Kami</h4>
           <p>
             Terima kasih yang sebesar-besarnya kepada <strong>Bapak AM Ahmad Yusuf</strong> atas arahan, bimbingan, 
             dan dukungan penuhnya, serta segenap <strong>Jajaran AC</strong> dan seluruh <strong>Rekan-Rekan Panitia</strong> 
-            yang telah mendedikasikan waktu, tenaga, dan ide demi terselenggaranya Family Gathering Area AYF 2026 ini dengan sukses.
+            yang telah mendedikasikan waktu, tenaga, dan ide demi terselenggaranya LEADERS RECHARGE (Area AYF 2026) ini dengan sukses.
           </p>
         </div>
 
-        <!-- UCAPAN TERIMA KASIH AC PERBANTUAN TRANSPORTASI -->
         <div class="thanks-box" style="border-left-color: #0284c7;">
           <h4><i class="fa-solid fa-van-shuttle" style="color:#0284c7;"></i> Apresiasi Khusus: AC Perbantuan Transportasi</h4>
           <p>
             Penghargaan setinggi-tingginya kepada Rekan-rekan <strong>AC Perbantuan</strong> yang dengan penuh keikhlasan 
-            dan solidaritas telah meluangkan waktu serta armadanya untuk kelancaran mobilitas & transportasi keberangkatan kita semua:
+            dan solidaritas telah meluangkan waktu serta armadanya untuk kelancaran mobilitas keberangkatan kita semua:
           </p>
           <div class="transport-pill-grid">
             <span class="transport-pill"><i class="fa-solid fa-car"></i> PAK ABUD</span>
@@ -1366,7 +1379,7 @@
         </div>
 
         <p style="font-size:0.85rem; color:#64748b; margin-top:20px; font-weight:600;">
-          Sampai jumpa di Robinson Resort Cisarua! Mari ciptakan momen kebersamaan yang indah dan tak terlupakan.
+          Sampai jumpa di Robinson Resort Cisarua! Saatnya rehat sejenak dan gas pol kembali.
         </p>
       </div>
 
@@ -1379,8 +1392,8 @@
 
     <!-- FOOTER -->
     <footer class="footer-bar">
-      <div class="footer-tagline">"Good People, Good Moment, Better Together"</div>
-      <div>Family Gathering Area AYF • Robinson Resort Cisarua</div>
+      <div class="footer-tagline">"Ngumpul, ngobrol, nge gas.."</div>
+      <div>LEADERS RECHARGE • Area AYF 2026 • Robinson Resort Cisarua</div>
     </footer>
   </div>
 
@@ -1388,11 +1401,13 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLQBuMN_Szn0OMBMqW4bLEmjOdE8CoCPvem5iNxmKkWviCgtjC6EKquGNglHX2TeLdAw/exec";
 
     let selectedGender = "";
+    let currentStep = 1;
+    let isUnlocked = false;
     const bgMusic = document.getElementById('bgMusic');
     const musicBtn = document.getElementById('musicToggle');
     let isPlaying = false;
 
-    // CEK RIWAYAT PENDAFTARAN REAL-TIME DARI LOCALSTORAGE KE GOOGLE SHEETS
+    // CEK STATUS KEHADIRAN KE DATABASE GOOGLE SHEETS
     window.addEventListener('DOMContentLoaded', async () => {
       const savedNik = localStorage.getItem('ayf_gathering_nik');
 
@@ -1402,6 +1417,7 @@
           const check = await res.json();
 
           if (check.registered) {
+            isUnlocked = true;
             const cover = document.getElementById('cover-overlay');
             if (cover) cover.classList.add('opened');
 
@@ -1424,7 +1440,6 @@
 
             goToStep(2);
           } else {
-            // Data sudah dihapus dari spreadsheet, bersihkan memori
             localStorage.removeItem('ayf_gathering_registered');
             localStorage.removeItem('ayf_gathering_name');
             localStorage.removeItem('ayf_gathering_nik');
@@ -1463,10 +1478,48 @@
       document.getElementById('labelWanita').classList.toggle('selected', val === 'Wanita');
     }
 
+    function handleNavClick(targetStep) {
+      if (isUnlocked || targetStep === 1) {
+        goToStep(targetStep);
+      }
+    }
+
+    // FUNGSI TRANSISI PERPINDAHAN STEP
     function goToStep(stepNumber) {
+      if (currentStep === stepNumber) return;
+
+      const currentEl = document.getElementById('step' + currentStep);
+      const nextEl = document.getElementById('step' + stepNumber);
+
+      if (!currentEl || !nextEl) return;
+
+      const isForward = stepNumber > currentStep;
+
+      // 1. Animasi keluar
+      currentEl.classList.remove('active');
+      currentEl.classList.add(isForward ? 'slide-out-left' : 'slide-out-right');
+
+      setTimeout(() => {
+        currentEl.style.display = 'none';
+        currentEl.classList.remove('slide-out-left', 'slide-out-right');
+
+        // 2. Setup elemen selanjutnya
+        nextEl.style.display = 'block';
+        nextEl.style.transform = isForward ? 'translateX(40px) scale(0.97)' : 'translateX(-40px) scale(0.97)';
+        nextEl.style.opacity = '0';
+
+        void nextEl.offsetWidth;
+
+        // 3. Masuk dengan animasi slide & fade
+        nextEl.classList.add('active');
+        nextEl.style.transform = '';
+        nextEl.style.opacity = '';
+
+        currentStep = stepNumber;
+      }, 200);
+
+      // Update Node Bar Atas
       for (let i = 1; i <= 6; i++) {
-        const stepEl = document.getElementById('step' + i);
-        if (stepEl) stepEl.classList.remove('active');
         const node = document.getElementById('node' + i);
         if (node) {
           node.classList.remove('active');
@@ -1478,15 +1531,13 @@
         }
       }
 
-      const targetStep = document.getElementById('step' + stepNumber);
-      if (targetStep) targetStep.classList.add('active');
       const activeNode = document.getElementById('node' + stepNumber);
       if (activeNode) activeNode.classList.add('active');
 
       window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
-    // FUNGSI 1: SUBMIT REGISTRASI BARU
+    // SUBMIT DATA KEHADIRAN
     async function submitData(e) {
       e.preventDefault();
 
@@ -1524,6 +1575,7 @@
         const result = await response.json();
 
         if (result.status === "success") {
+          isUnlocked = true;
           localStorage.setItem('ayf_gathering_registered', 'true');
           localStorage.setItem('ayf_gathering_name', namaVal);
           localStorage.setItem('ayf_gathering_nik', nikVal);
@@ -1536,7 +1588,7 @@
           nextContainer.style.display = 'block';
         } else if (result.status === "already_registered") {
           alertBox.className = "status-alert error";
-          alertBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <strong>Peringatan:</strong> NIK atau Nama ini sudah terdaftar di database! Silakan masuk menggunakan form Login NIK di bawah.';
+          alertBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <strong>Peringatan:</strong> NIK atau Nama ini sudah terdaftar di database! Silakan masuk via form Login NIK di bawah.';
           alertBox.style.display = 'block';
           btn.disabled = false;
           btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> KIRIM DATA KEHADIRAN';
@@ -1552,7 +1604,7 @@
       }
     }
 
-    // FUNGSI 2: LOGIN MENGGUNAKAN NIK SAJA
+    // LOGIN DENGAN NIK
     async function loginByNik() {
       const nikInput = document.getElementById('loginNik');
       const nikVal = nikInput.value.trim();
@@ -1575,7 +1627,7 @@
         const check = await res.json();
 
         if (check.registered) {
-          // NIK DITEMUKAN DI SPREADSHEET
+          isUnlocked = true;
           localStorage.setItem('ayf_gathering_registered', 'true');
           localStorage.setItem('ayf_gathering_name', check.name);
           localStorage.setItem('ayf_gathering_nik', nikVal);
@@ -1586,9 +1638,8 @@
 
           setTimeout(() => {
             goToStep(2);
-          }, 800);
+          }, 450);
         } else {
-          // NIK TIDAK DITEMUKAN
           loginAlert.className = "status-alert error";
           loginAlert.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <strong>NIK Tidak Ditemukan!</strong> Pastikan Anda telah mengisi formulir registrasi di atas terlebih dahulu.';
           loginAlert.style.display = 'block';
