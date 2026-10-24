@@ -37,6 +37,18 @@
       justify-content: center;
       align-items: flex-start;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    /* KANVAS EFEK HIDUP (HUJAN & KUNANG-KUNANG) */
+    #ambientCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999; /* Muncul lembut di atas cover maupun web */
     }
 
     .main-wrapper {
@@ -48,6 +60,7 @@
       box-shadow: 0 10px 40px rgba(0,0,0,0.6);
       display: flex;
       flex-direction: column;
+      z-index: 1;
     }
 
     /* COVER INTRO */
@@ -57,7 +70,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 9999;
+      z-index: 9998;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -140,7 +153,7 @@
       font-weight: 800;
       color: var(--accent-gold);
       margin-top: 6px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       letter-spacing: 1px;
     }
 
@@ -199,7 +212,7 @@
       color: #0b2545;
       border: none;
       cursor: pointer;
-      z-index: 999;
+      z-index: 1000;
       box-shadow: 0 6px 20px rgba(0,0,0,0.4);
       display: flex;
       align-items: center;
@@ -917,6 +930,9 @@
 </head>
 <body>
 
+  <!-- KANVAS PARTIKEL HIDUP (EFEK ALAM SEJUK) -->
+  <canvas id="ambientCanvas"></canvas>
+
   <!-- AUDIO MUSIK -->
   <audio id="bgMusic" src="musik.mp3" loop preload="auto"></audio>
 
@@ -925,7 +941,7 @@
     <i class="fa-solid fa-music"></i>
   </button>
 
-  <!-- ================= COVER UTAMA DENGAN REVISI JUDUL & TAGLINE ================= -->
+  <!-- COVER UTAMA -->
   <div id="cover-overlay">
     <div class="cover-bg-motion"></div>
     <div class="cover-overlay-gradient"></div>
@@ -1071,7 +1087,7 @@
       </div>
     </section>
 
-    <!-- ================= STEP 2: STRUKTUR PANITIA ================= -->
+    <!-- ================= STEP 2: STRUKTUR PANITIA (REVISI POSISI & NAMA) ================= -->
     <section id="step2" class="step-section">
       <h3 class="section-headline"><i class="fa-solid fa-sitemap"></i> Susunan Kepanitiaan</h3>
 
@@ -1113,10 +1129,11 @@
           <i class="fa-solid fa-people-group"></i> Team Support (15 Personel)
         </div>
         <div class="member-grid">
+          <!-- REVISI: DEWI ANGGRAENI -> DWI FEBRIANI -> WINDI AULIA -> DEWI SUSANTI -->
           <div class="member-pill"><span class="member-num">1</span> DEWI ANGGRAENI</div>
           <div class="member-pill"><span class="member-num">2</span> DWI FEBRIANI</div>
-          <div class="member-pill"><span class="member-num">3</span> DEWI SUSANTI</div>
-          <div class="member-pill"><span class="member-num">4</span> WINDI AULIA</div>
+          <div class="member-pill"><span class="member-num">3</span> WINDI AULIA</div>
+          <div class="member-pill"><span class="member-num">4</span> DEWI SUSANTI</div>
           <div class="member-pill"><span class="member-num">5</span> WIWIN SEPTIANINGSIH</div>
           <div class="member-pill"><span class="member-num">6</span> IYUL IJATI</div>
           <div class="member-pill"><span class="member-num">7</span> BAIHAQI B SAIDI</div>
@@ -1407,7 +1424,85 @@
     const musicBtn = document.getElementById('musicToggle');
     let isPlaying = false;
 
-    // CEK STATUS KEHADIRAN KE DATABASE GOOGLE SHEETS
+    // ================= SCRIPT ANIMASI PARTIKEL HIDUP (HUJAN & CAHAYA) =================
+    const canvas = document.getElementById('ambientCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    // 1. Rintik Hujan Halus
+    const drops = [];
+    for (let i = 0; i < 40; i++) {
+      drops.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        length: Math.random() * 18 + 10,
+        speed: Math.random() * 4 + 4,
+        opacity: Math.random() * 0.25 + 0.1
+      });
+    }
+
+    // 2. Kunang-kunang / Glow Cahaya Emas
+    const glows = [];
+    for (let i = 0; i < 20; i++) {
+      glows.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 2 + 1,
+        alpha: Math.random(),
+        speedX: (Math.random() - 0.5) * 0.6,
+        speedY: (Math.random() - 0.5) * 0.6,
+        color: Math.random() > 0.5 ? '255, 183, 3' : '0, 188, 212'
+      });
+    }
+
+    function renderAmbient() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Render Hujan
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i = 0; i < drops.length; i++) {
+        const d = drops[i];
+        ctx.moveTo(d.x, d.y);
+        ctx.lineTo(d.x + 1, d.y + d.length);
+        d.y += d.speed;
+        d.x += 0.5;
+        if (d.y > height) {
+          d.y = -d.length;
+          d.x = Math.random() * width;
+        }
+      }
+      ctx.stroke();
+
+      // Render Cahaya / Kunang-kunang
+      for (let i = 0; i < glows.length; i++) {
+        const g = glows[i];
+        g.x += g.speedX;
+        g.y += g.speedY;
+
+        if (g.x < 0) g.x = width;
+        if (g.x > width) g.x = 0;
+        if (g.y < 0) g.y = height;
+        if (g.y > height) g.y = 0;
+
+        ctx.fillStyle = `rgba(${g.color}, ${Math.abs(Math.sin(Date.now() * 0.002 + i)) * 0.7})`;
+        ctx.beginPath();
+        ctx.arc(g.x, g.y, g.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(renderAmbient);
+    }
+    renderAmbient();
+
+    // ================= LOGIKA CEK DATA & NAVIGASI =================
     window.addEventListener('DOMContentLoaded', async () => {
       const savedNik = localStorage.getItem('ayf_gathering_nik');
 
@@ -1484,7 +1579,6 @@
       }
     }
 
-    // FUNGSI TRANSISI PERPINDAHAN STEP
     function goToStep(stepNumber) {
       if (currentStep === stepNumber) return;
 
@@ -1495,7 +1589,6 @@
 
       const isForward = stepNumber > currentStep;
 
-      // 1. Animasi keluar
       currentEl.classList.remove('active');
       currentEl.classList.add(isForward ? 'slide-out-left' : 'slide-out-right');
 
@@ -1503,14 +1596,12 @@
         currentEl.style.display = 'none';
         currentEl.classList.remove('slide-out-left', 'slide-out-right');
 
-        // 2. Setup elemen selanjutnya
         nextEl.style.display = 'block';
         nextEl.style.transform = isForward ? 'translateX(40px) scale(0.97)' : 'translateX(-40px) scale(0.97)';
         nextEl.style.opacity = '0';
 
         void nextEl.offsetWidth;
 
-        // 3. Masuk dengan animasi slide & fade
         nextEl.classList.add('active');
         nextEl.style.transform = '';
         nextEl.style.opacity = '';
@@ -1518,7 +1609,6 @@
         currentStep = stepNumber;
       }, 200);
 
-      // Update Node Bar Atas
       for (let i = 1; i <= 6; i++) {
         const node = document.getElementById('node' + i);
         if (node) {
@@ -1537,7 +1627,6 @@
       window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
-    // SUBMIT DATA KEHADIRAN
     async function submitData(e) {
       e.preventDefault();
 
@@ -1604,7 +1693,6 @@
       }
     }
 
-    // LOGIN DENGAN NIK
     async function loginByNik() {
       const nikInput = document.getElementById('loginNik');
       const nikVal = nikInput.value.trim();
